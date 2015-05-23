@@ -46,7 +46,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li class="active"><a href="home.jsp#">Home</a></li>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administrator<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
@@ -56,6 +56,18 @@
                     <li><a href="book.jsp">Manage Books</a></li>
                     <li><a href="borrower.jsp">Manage Borrowers</a></li>
                     <li><a href="branch.jsp">Manage Branches</a></li>
+                  </ul>
+                </li>
+                 <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Librarian<span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="listLibrary.jsp">Library Branch</a></li> 
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Borrower<span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="listBorrower.jsp">Get connected</a></li> 
                   </ul>
                 </li>
               </ul>

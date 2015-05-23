@@ -111,14 +111,6 @@ public class BookService {
 			 
 				} 
  }
-// public String publisherNameforBook(int publisherId) throws Exception {
-//	 
-//	Publisher p = new Publisher();
-//	p=publisherInBook(publisherId);
-//	String publisherName =p.getPublisherName();
-//	 
-//	 return publisherName;	 
-// }
  public List<Book> checkBookByName(String name) throws Exception {
 	  List<Book>pubList = new ArrayList<>();		
 	try{

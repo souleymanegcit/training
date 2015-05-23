@@ -44,9 +44,10 @@ List<Book> book = new BookService().displayBookList();
 		 
 		<td><%=elem.getGenres()%></td>
 	   
-				<td><button class=" open_add btn btn-success">Edit</button></td>
-		<td><button class="btn btn-danger" onclick="javascript:deleteBook(<%=elem.getBookId()%>);">Delete</button></td>
-	</tr>
+		<td><button class=" open_add btn btn-success">Edit</button></td>
+		<td><button class="btn btn-danger" onclick="javascript:deleteBook
+		(<%=elem.getBookId()%>);">Delete</button></td>
+	 </tr>
 	
 	<% } %>
 	<tr>

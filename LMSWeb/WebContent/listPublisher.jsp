@@ -35,8 +35,7 @@ List<Publisher> publishers = new PublisherService().displayPublisher();
 		<td><button class=" open_add btn btn-success" href="updatePublisher.jsp?publisherIdupdate=<%=elem.getPublisherId()%>"
 				data-target="#basicModal" data-toggle="modal">Edit</button></td>
 		<td><button class="btn btn-danger" onclick="javascript:deletePublisher(<%=elem.getPublisherId()%>);">Delete</button></td>
-	</tr>
-	
+	</tr> 
 	<% } %>
 	<tr>
 		<td>Publisher Id</td>
@@ -57,7 +56,6 @@ List<Publisher> publishers = new PublisherService().displayPublisher();
 </section>
 <form action="deletePublisher" method="post" name="deleteFrm">
 	<input type="hidden" name="publisherId" id="publisherId"/>
-</form>
-
+</form> 
 </section>
 </div>
