@@ -1,11 +1,8 @@
 package com.gcit.training.lms.service.admin;
 
 import java.util.ArrayList;
-import java.util.List; 
-
-import com.gcit.training.lms.dao.AuthorDAO;
-import com.gcit.training.lms.dao.GenreDAO; 
-import com.gcit.training.lms.entity.Author;
+import java.util.List;  
+import com.gcit.training.lms.dao.GenreDAO;  
 import com.gcit.training.lms.entity.Genre;
 
 public class GenreService {
@@ -75,9 +72,8 @@ public class GenreService {
 			finally {				 
 				}
 		}
-	@SuppressWarnings("unchecked")
-	public List<Genre> checkAuthorByName(String name) throws Exception {
-		List<Genre>  pubList = new ArrayList<>();		
+ 
+	public List<Genre> checkAuthorByName(String name) throws Exception { 
 		try{
 			if ( name == null || name == null
 					||  name.length() == 0
@@ -86,7 +82,7 @@ public class GenreService {
 						"Author name cannot be null and Name should be 1-45 characters");
 			}
 			GenreDAO pa = new GenreDAO();
-			return pubList= (List <Genre>)pa.readbyName( name);
+			return  (List <Genre>)pa.readbyName( name);
 		 
 			}  	catch (Exception e) {
 				throw e;
@@ -96,11 +92,10 @@ public class GenreService {
 		 
 		}
 	
-	public List<Genre> listGenre() throws Exception {
-		List<Genre>  pubList = new ArrayList<>();		
+	public List<Genre> listGenre() throws Exception { 
 		 try{
 			GenreDAO pa = new GenreDAO();
-			return pubList= (List <Genre>)pa.readAll();
+			return (List <Genre>)pa.readAll();
 		 
 			}  	catch (Exception e) {
 				throw e;

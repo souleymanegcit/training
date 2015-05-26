@@ -21,4 +21,4 @@ Publisher a = new PublisherService().returnPublisher(Integer.parseInt(publisherI
 	</form>
 </div>
 </div>
-</div> 
+ 

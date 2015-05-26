@@ -4,13 +4,11 @@ package com.gcit.training.lms.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List; 
+import java.util.List;
 
 import com.gcit.training.lms.entity.Author;
-import com.gcit.training.lms.entity.Book;
-import com.gcit.training.lms.entity.BookAuthors;
-import com.gcit.training.lms.entity.Genre;
-import com.gcit.training.lms.entity.Library;
+import com.gcit.training.lms.entity.Book; 
+import com.gcit.training.lms.entity.Genre; 
 import com.gcit.training.lms.entity.Publisher;
 
 
@@ -41,15 +39,16 @@ public class BookDAO extends BaseDAO<List<Book>> {
 				+ "where bookId = ?", new Object[] {
 				book.getTitle(),  book.getBookId() });
 		
-//		for(Author a : book.getAuthors()) {
-//			save("update  tbl_book_authors set bookId=?  authorId=?)",
-//					new Object[] { book.getBookId(), a.getAuthorId() });
-//		}
-//		
-//		for(Genre g : book.getGenres()) {
-//			save("update   tbl_book_genres set bookId=?, genre_id?)",
-//					new Object[] { book.getBookId(), g.getGenreId() });
-//		}
+		for(Author a : book.getAuthors()) {
+			save("update  tbl_book_authors set bookId=?  authorId=? where bookId=?   )",
+					new Object[] { book.getBookId(), a.getAuthorId(), book.getBookId() });
+		}
+		
+		//for(Genre g : book.getGenres()) {
+			
+			save("update   tbl_book_genres set bookId=?, genre_id=? where bookId=?)",
+					new Object[] { book.getBookId(), book.getGenres().get(0).getGenreId(), book.getBookId() });
+		//}
 	  
 		}
  
@@ -64,15 +63,30 @@ public class BookDAO extends BaseDAO<List<Book>> {
 	}	
 	@SuppressWarnings("unchecked")
 	public List<Author> readBookAuthor(int bookId) throws Exception {
-		return (List<Author>) read("select * from tbl_book_authors where bookId= ?", new Object[] { bookId });
-		
+		return (List<Author>) read("select * from tbl_book_authors where bookId= ?", new Object[] { bookId }); 
 	}	
 	@SuppressWarnings("unchecked")
+	public List<Book> readBook (int bookId) throws Exception {
+		return (List<Book>) read("select * from tbl_book where bookId= ?", new Object[] { bookId }); 
+	}
+	
+	@SuppressWarnings("unchecked")
+	
+	public Book readBookOfCopies(int bookId) throws Exception {
+		List<Book> publist =  new ArrayList<Book>();
+		 publist = (List<Book>) read("select * from tbl_book where bookId= ?", new Object[] { bookId }); 
+		 
+		if (publist != null && publist.size() > 0) {
+			return publist.get(0);
+		} else {
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<Genre> readBookGenre(int bookId) throws Exception {
-		return (List<Genre>) read("select * from tbl_book_genres where bookId= ?", new Object[] { bookId });
-		
-	}	
-		@SuppressWarnings("unchecked")
+		return (List<Genre>) read("select * from tbl_book_genres where bookId= ?", new Object[] { bookId }); 
+	}  
 	public Publisher readPublisherBook(int publisherId) throws Exception {
 			 
 	return (Publisher) read(
@@ -82,10 +96,10 @@ public class BookDAO extends BaseDAO<List<Book>> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Book readOne(int bookId) throws Exception {
+	public Book readOne(int publisherId) throws Exception {
 		List<Book> pubList = (List<Book>) read(
 				"select * from tbl_publisher where publisherId = ?",
-				new Object[] { bookId });
+				new Object[] { publisherId });
 
 		if (pubList != null && pubList.size() > 0) {
 			return pubList.get(0);

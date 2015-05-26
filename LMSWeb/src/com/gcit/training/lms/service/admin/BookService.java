@@ -1,17 +1,13 @@
 package com.gcit.training.lms.service.admin;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-
-import com.gcit.training.lms.dao.AuthorDAO;
-import com.gcit.training.lms.dao.BookDAO;
-import com.gcit.training.lms.dao.PublisherDAO;
+import java.util.List;  
+import com.gcit.training.lms.dao.BookDAO; 
 import com.gcit.training.lms.entity.Author;
-import com.gcit.training.lms.entity.Book;
-import com.gcit.training.lms.entity.BookAuthors;
-import com.gcit.training.lms.entity.Genre;
-import com.gcit.training.lms.entity.Publisher;
+import com.gcit.training.lms.entity.Book; 
+import com.gcit.training.lms.entity.Genre; 
  
 
 public class BookService {
@@ -54,65 +50,68 @@ public class BookService {
 //	}
 
 	public List<Book> displayBookList() throws Exception {		
-		BookDAO p = new BookDAO();
-		List<Book> list = new ArrayList<Book>(); 		 
-		return list=(List<Book>) p.readAll(); 
+		Connection con = ConnectionUtil.getConnection();
+		try{
+		BookDAO p = new BookDAO();	  		 
+		return (List<Book>) p.readAll();  
+		} 
+		finally {
+			con.close();
+		} 
 		} 
 	
- public void displayBookByList(List<Book> plist) throws Exception {		
-		 
-		List<Book> list = new ArrayList<>(); 
-		list=plist;	
-		if(!list.isEmpty()) {
-		System.out.println("The list of  Books");
-		for(Book ele: list) {
-		System.out.println(" ");
-		System.out.println("#######################");
-		System.out.println("Book Id: " + ele.getBookId());
-     	System.out.println("Title: " + ele.getTitle()); 
-    	System.out.println("#######################");
-		}
-		}
-		else {
-			System.out.println("This Book name doesn't exist!!! please check it out and try again");
-		}
-		}
+// public void displayBookByList(List<Book> plist) throws Exception {		
+//		 
+//		List<Book> list = new ArrayList<>(); 
+//		list=plist;	
+//		if(!list.isEmpty()) {
+//		System.out.println("The list of  Books");
+//		for(Book ele: list) {
+//		System.out.println(" ");
+//		System.out.println("#######################");
+//		System.out.println("Book Id: " + ele.getBookId());
+//     	System.out.println("Title: " + ele.getTitle()); 
+//    	System.out.println("#######################");
+//		}
+//		}
+//		else {
+//			System.out.println("This Book name doesn't exist!!! please check it out and try again");
+//		}
+//		}
  
- public List<Author> authorInBook (int bookId) throws Exception {	 
-	 try {
-		List<Author> list = new ArrayList<Author>(); 
+ public List<Author> authorInBook (int bookId) throws Exception {	
+	 Connection con = ConnectionUtil.getConnection();
+	 try { 
 		BookDAO bookdao = new BookDAO();		
-		return list=bookdao.readBookAuthor(bookId);
-		}  	catch (Exception e) {
-			throw e;
-		}   finally {
-			 
-				} 
+		return (List<Author>)bookdao.readBookAuthor(bookId);
+		}  	 
+	 finally {
+			con.close();
+		} 
  }
  public List<Genre> genreInBook (int bookId) throws Exception {	 
-	 try {
-		List<Genre> list = new ArrayList<Genre>(); 
+	 Connection con = ConnectionUtil.getConnection();
+	 try { 
 		BookDAO bookdao = new BookDAO();		
-		return list=bookdao.readBookGenre(bookId);
-		}  	catch (Exception e) {
-			throw e;
-		}   finally {
-			 
+		return (List<Genre>)bookdao.readBookGenre(bookId);
+		}  	 
+	 finally {
+		 con.close(); 
 				} 
  }
  public Book publisherInBook (int book) throws Exception {	 
+	 Connection con = ConnectionUtil.getConnection();
 	 try {
 		 
 		BookDAO bookdao = new BookDAO();	
 		return bookdao.readOne(book);
-		}  	catch (Exception e) {
-			throw e;
-		}   finally {
-			 
+		}  	 
+	 finally {
+		 con.close(); 
 				} 
  }
  public List<Book> checkBookByName(String name) throws Exception {
-	  List<Book>pubList = new ArrayList<>();		
+	 Connection con = ConnectionUtil.getConnection();	
 	try{
 		if (name == null ||name == null
 				||  name.length() == 0
@@ -121,12 +120,10 @@ public class BookService {
 					"Bookname cannot be null and Name should be 1-45 characters");
 		}
 		BookDAO pa = new BookDAO();
-		return pubList= (List <Book>)pa.readbyName(name);
+		return (List <Book>)pa.readbyName(name);
 	 
-		}  	catch (Exception e) {
-			throw e;
-		}   finally {
-			 
+		}  	   finally {
+			con.close();
 				} 
 	} 
  public boolean checkBookInList(List<Book> list, int bookId) throws Exception {
@@ -141,48 +138,68 @@ public class BookService {
 		return flag;
 	}
 	
- public  void insertBook(Book book) throws ClassNotFoundException {
-		try {
+ public  void insertBook(Book book) throws  Exception {
+	 Connection con = ConnectionUtil.getConnection();	
+	 try {
 			BookDAO b = new BookDAO();
 	    //calling the method create to insert into table 
 	      b.create(book);
 	  	  // displayBook();
 	      System.out.println("The Book" +book.getTitle()+ " is inserting in the table...Book");
+	      con.commit();
 	       }
 		catch(Exception se){
 	 	   //Handle errors for JDBC
+			con.rollback();
 	 	   se.printStackTrace();
 	 	   }	  
-	       finally { 
-	       }
+	 	finally {
+		con.close();
 	 	}
+	 }
  public void updateBook(Book book) throws Exception {	 
-		try {
+	 Connection con = ConnectionUtil.getConnection();		
+	 try {
 			BookDAO ba = new BookDAO();
 			ba.updateAll(book); 
+			con.commit();
 			}
 			catch(Exception se){
-		     //Handle errors for JDBC
+				con.rollback();
+				//Handle errors for JDBC
 		    se.printStackTrace();		    
 			   }
-			finally {				 
+			finally {
+				con.close();
 				}
 		}
  public  void deleteBook(Book book) throws Exception {
-		try{
+	 Connection con = ConnectionUtil.getConnection();			
+	 try{
 			BookDAO pa = new BookDAO();
 			pa.delete(book);
+			con.commit();
 			}
 			catch(SQLException se){
-			      //Handle errors for JDBC
+				con.rollback();  
+				//Handle errors for JDBC
 				// conn.rollback();
 			      se.printStackTrace();
 			   }
+	 		finally {
+	 			con.close();
+	 		}
 		}
  
- public Book readOneById(int bookId) throws Exception {
-	BookDAO b = new BookDAO();	
-	 return b.readOne(bookId);
+ public List<Book> readOneById(int bookId) throws Exception {
+	 Connection con = ConnectionUtil.getConnection();			
+	 try {
+		 BookDAO b = new BookDAO();		 
+	 return (List<Book>)b.readBook(bookId);	
+	 }
+	 finally {
+		 con.close();
+	 }
 		
 	}
  

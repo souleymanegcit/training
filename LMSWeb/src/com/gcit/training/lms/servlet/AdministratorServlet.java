@@ -1,21 +1,23 @@
 package com.gcit.training.lms.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
+import java.util.ArrayList; 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; 
-
 import com.gcit.training.lms.entity.Author; 
 import com.gcit.training.lms.entity.Book;
+import com.gcit.training.lms.entity.BookCopies;
 import com.gcit.training.lms.entity.Genre;
+import com.gcit.training.lms.entity.Library;
 import com.gcit.training.lms.entity.Publisher; 
 import com.gcit.training.lms.service.admin.AuthorService;
+import com.gcit.training.lms.service.admin.BookCopiesService;
 import com.gcit.training.lms.service.admin.BookService;
+import com.gcit.training.lms.service.admin.LibraryService;
 import com.gcit.training.lms.service.admin.PublisherService;
 
 /**
@@ -23,7 +25,7 @@ import com.gcit.training.lms.service.admin.PublisherService;
  */
 @WebServlet({ "/addAuthor", "/deleteAuthor" , "/updateAuthor",
 	"/addPublisher" , "/deletePublisher" , "/updatePublisher",
-	"/addBook", "/updateBook", "/deleteBook",})
+	"/addBook", "/updateBook", "/deleteBook","/updatelibrarian" , "/addBookCopies"})
 public class AdministratorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -78,12 +80,24 @@ public class AdministratorServlet extends HttpServlet {
 			updatePublisher(request, response);
 			break;
 		}
+		case "/updateBook": {
+			updateBook(request, response);
+			break;
+		}
 		case "/addBook": {
 			addBook(request, response);
 			break;
 		}
 		case "/deleteBook": {
 			deleteBook(request, response);
+			break;
+		}
+		case "/updatelibrarian": {
+			updateLibrary(request, response);
+			break;
+		}
+		case "/addBookCopies": {
+			updateBookCopies(request, response);
 			break;
 		}
 		default:
@@ -134,6 +148,61 @@ public class AdministratorServlet extends HttpServlet {
 			
 			rd.forward(request, response);
 		}
+		private void updateLibrary(HttpServletRequest request,
+				HttpServletResponse response) throws ServletException, IOException {
+			
+			String branchId = request.getParameter("branchId");
+			String branchName = request.getParameter("branchName");
+			String branchAddress = request.getParameter("branchAddress");
+			Library library = new Library();
+			library.setBranchId(Integer.parseInt(branchId));
+			library.setBranchName(branchName);
+			library.setBranchAdress(branchAddress);
+
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(
+					"/librarian.jsp");
+			try {
+				new LibraryService().updateLibrary(library); 
+				request.setAttribute("result", "Branch updated Succesfully!");
+			} catch (Exception e) {
+				e.printStackTrace();
+				request.setAttribute("result",
+						"Branch update Failed because: " + e.getMessage());
+			}
+			
+			rd.forward(request, response);
+		}
+		
+		private void updateBookCopies(HttpServletRequest request,
+				HttpServletResponse response) throws ServletException, IOException { 
+			
+			String branchId = request.getParameter("branchId");
+			String bookId = request.getParameter("bookId"); 
+			String noOfCopies = request.getParameter("noOfCopies");
+			System.out.println(noOfCopies);
+			BookCopies bookcopies = new BookCopies();
+			Book  book  = new Book();
+			Library  library  = new Library();  
+			
+			book.setBookId(Integer.parseInt(bookId));
+			bookcopies.setBook(book);
+			library.setBranchId(Integer.parseInt(branchId));
+			bookcopies.setLibrary(library);
+			bookcopies.setNoOfCopies(Integer.parseInt(noOfCopies));
+
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(
+					"/addBookCopies.jsp");
+			try {
+				new BookCopiesService().updateBookCopies(bookcopies); 
+				request.setAttribute("result", "BookCopies updated Succesfully!");
+			} catch (Exception e) {
+				e.printStackTrace();
+				request.setAttribute("result",
+						"BookCopies update Failed because: " + e.getMessage());
+			}			
+			rd.forward(request, response);
+		}
+		
 		private void deletePublisher(HttpServletRequest request,
 				HttpServletResponse response) throws ServletException, IOException {
 			
@@ -248,16 +317,18 @@ public class AdministratorServlet extends HttpServlet {
 		}
 		private void addBook(HttpServletRequest request,
 				HttpServletResponse response) throws ServletException, IOException {
+			
 			String[] authorIds = request.getParameterValues("authorId");
 			String title = request.getParameter("title");
 			String[] genres = request.getParameterValues("genreId");
 			Publisher p = new Publisher();
 			String publisherid = request.getParameter("publisherid");
-			System.out.println(publisherid);
+			//System.out.println(publisherid);
 			Book book = new Book();
 			book.setTitle(title); 
 			p.setPublisherId(Integer.parseInt(publisherid)); 
 			book.setPublisher(p);
+			
 			if(authorIds != null && authorIds.length > 0) {
 				book.setAuthors(new ArrayList<Author>());
 				for(String s : authorIds) {
@@ -284,6 +355,50 @@ public class AdministratorServlet extends HttpServlet {
 				request.setAttribute("result",
 						"Book Add Failed because: " + e.getMessage());
 			}
+
+			rd.forward(request, response);
+		}
+		private void updateBook(HttpServletRequest request,
+				HttpServletResponse response) throws ServletException, IOException {
+			String[] authorIds = request.getParameterValues("authorid");
+			String bookId = request.getParameter("bookid");
+			String title = request.getParameter("title");
+			String[] genres = request.getParameterValues("genreid");
+			Publisher p = new Publisher();
+			String publisherId = request.getParameter("publisherid"); 
+			Book book = new Book();
+			book.setBookId(Integer.parseInt(bookId));
+			book.setTitle(title);
+			p.setPublisherId(Integer.parseInt(publisherId)); 
+			book.setPublisher(p);
+			if(authorIds != null && authorIds.length > 0) {
+				book.setAuthors(new ArrayList<Author>());
+				for(String s : authorIds) {
+					Author author = new Author();
+					author.setAuthorId(Integer.parseInt(s));
+					book.getAuthors().add(author);
+				}
+			} 
+			if(genres != null && genres.length > 0) {
+				book.setGenres(new ArrayList<Genre>());
+				for(String g : genres) {
+					Genre genre = new Genre();
+					genre.setGenreId(Integer.parseInt(g));
+					book.getGenres().add(genre); 
+				}
+			} 
+			
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(
+					"/listBook.jsp");
+			try {
+				new BookService().updateBook(book); 
+
+				request.setAttribute("result", "Book updated Succesfully!");
+			} catch (Exception e) {
+				e.printStackTrace();
+				request.setAttribute("result",
+						"Book update Failed because: " + e.getMessage());
+			}  
 
 			rd.forward(request, response);
 		}

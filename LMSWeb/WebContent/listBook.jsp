@@ -14,10 +14,11 @@ List<Book> book = new BookService().displayBookList();
 		document.getElementById("bookId").value = id;
 		document.deleteFrm.submit();
 	} 
-</script> 
+</script>
+ 
 <div style="margin-top:80px;margin-left:10px;">
 <section>
-<table class="table table-hover table-bordered">
+<table id="mybook" class="table table-hover table-bordered">
 	<tr>
 		<td>Book Id</td>
 		<td>Book Tile</td>
@@ -44,9 +45,10 @@ List<Book> book = new BookService().displayBookList();
 		 
 		<td><%=elem.getGenres()%></td>
 	   
-		<td><button class=" open_add btn btn-success">Edit</button></td>
+		<td><button class=" open_add btn btn-success" href="updateBook.jsp?bookIdupdate=<%=elem.getBookId()%>"
+				data-target="#basicModal" data-toggle="modal">Edit</button></td>
 		<td><button class="btn btn-danger" onclick="javascript:deleteBook
-		(<%=elem.getBookId()%>);">Delete</button></td>
+		(<%=elem.getBookId()%>);"><span class="glyphicon glyphicon-trash"></span> Delete</button></td>
 	 </tr>
 	
 	<% } %>
@@ -74,3 +76,22 @@ List<Book> book = new BookService().displayBookList();
 
 </section>
 </div>
+<!-- ------------------------------------------------Scripting jquery code right here------------------------------------------------------ -->
+<script src="./scripts/jquery.js"></script>
+<script src="./scripts/jquery.dataTables.js"></script>
+<script src="./scripts/jquery.dataTables.css"></script>
+<script>
+$(document).ready(function() {
+    var table = $('#mybook').DataTable();
+ 
+    $('button').click( function() {
+        var data = table.$('input, select').serialize();
+        alert(
+            "The following data would have been submitted to the server: \n\n"+
+            data.substr( 0, 120 )+'...'
+        );
+        return false;
+    } );
+} );
+</script> 
+<!-- ------------------------------------------------Scripting code right here------------------------------------------------------ -->

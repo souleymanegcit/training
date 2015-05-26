@@ -61,13 +61,14 @@
                  <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Librarian<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="listLibrary.jsp">Library Branch</a></li> 
+                    <li><a href=" librarian.jsp">Branch update</a></li> 
+                     <li><a href="addBookCopies.jsp">Add book copies</a></li>
                   </ul>
                 </li>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Borrower<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="listBorrower.jsp">Get connected</a></li> 
+                    <li><a href="borrower.jsp" data-target="#basicModal2" data-toggle="modal">Get connected</a></li> 
                   </ul>
                 </li>
               </ul>
@@ -77,7 +78,14 @@
 
       </div>
     </div>
-
+<section>
+<div class="modal  fade" id="basicModal2" tabindex="-6">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">   
+    </div>
+  </div>
+</div>
+</section>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

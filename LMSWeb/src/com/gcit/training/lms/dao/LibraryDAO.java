@@ -46,11 +46,15 @@ public class LibraryDAO extends BaseDAO<List<Library>> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Library> readOne(int branchId) throws Exception {
+	public Library readOne(int branchId) throws Exception {
 		List<Library> list = (List<Library>) read(
 				"select * from tbl_library_branch where branchId = ?",
 				new Object[] { branchId });
-		return  list; 
+		if (list != null && list.size() > 0) {
+			return list.get(0);
+		} else {
+			return null;
+		} 
 	} 
 	@SuppressWarnings("unchecked")
 	public List<Library> readbyName(String branchname) throws Exception {
@@ -58,10 +62,12 @@ public class LibraryDAO extends BaseDAO<List<Library>> {
 		pubList =  (List<Library>) read("select * from tbl_library_branch p"
 				+ " where upper(p.authorName)= ?", new Object[] { "%" + branchname + "%" });
 		return pubList;
-	} 
+	}
+	
 	@Override
 	protected List<Library> extractData(ResultSet rs) throws SQLException {
 		List<Library> list = new ArrayList<Library>();
+		
 		while (rs.next()) {
 			Library a = new Library();
 			a.setBranchId(rs.getInt("branchId"));
@@ -71,17 +77,7 @@ public class LibraryDAO extends BaseDAO<List<Library>> {
 		}
 		return list;
 	} 
-//	@Override
-//	protected List<Object> extractDataBooki(ResultSet rs) throws SQLException {
-//		List<Object> list = new ArrayList<Object>(); int i=0; int j=1;
-//		Array a ;		 
-//		while (rs.next()) {
-//			a=(Array) rs.getObject(j);			 
-//			list.add(i, a);
-//			i++;j++;
-//		}
-//		return list;
-//	}
+ 
 	@Override
 	protected List<?> veryExtractData(ResultSet rs) throws SQLException,
 			Exception {

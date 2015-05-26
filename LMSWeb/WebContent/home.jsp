@@ -7,7 +7,7 @@
     <div id="myCarousel" class="carousel slide">
       <div class="carousel-inner">
         <div class="item  active">
-          <img src="./image/libraian.jpg" alt="">
+          <img src="./images/libraian.jpg" alt="">
           <div class="container">
             <div class="carousel-caption">
               <h1>Get library's informations</h1>
@@ -17,7 +17,7 @@
           </div>
         </div>
         <div class="item">
-          <img src="./image/borrower.jpg" alt="">
+          <img src="./images/borrower.jpg" alt="">
           <div class="container">
             <div class="carousel-caption">
               <h1>Borrower, get any book.</h1>
@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="item">
-          <img src="./image/news.jpg" alt="">
+          <img src="./images/news.jpg" alt="">
           <div class="container">
             <div class="carousel-caption">
               <h1>Librarian, please start here.</h1>
@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="item">
-          <img src="./image/admin.jpg" alt="">
+          <img src="./images/admin.jpg" alt="">
           <div class="container">
             <div class="carousel-caption">
               <h1>Application Administrator.</h1>
