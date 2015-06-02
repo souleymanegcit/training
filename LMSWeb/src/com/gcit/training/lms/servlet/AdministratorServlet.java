@@ -2,12 +2,16 @@ package com.gcit.training.lms.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList; 
+import java.util.List;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; 
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gcit.training.lms.entity.Author; 
 import com.gcit.training.lms.entity.Book;
 import com.gcit.training.lms.entity.BookCopies;
@@ -25,7 +29,7 @@ import com.gcit.training.lms.service.admin.PublisherService;
  */
 @WebServlet({ "/addAuthor", "/deleteAuthor" , "/updateAuthor",
 	"/addPublisher" , "/deletePublisher" , "/updatePublisher",
-	"/addBook", "/updateBook", "/deleteBook","/updatelibrarian" , "/addBookCopies"})
+	"/addBook", "/updateBook", "/deleteBook","/updatelibrarian" , "/addBookCopies" })
 public class AdministratorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -56,6 +60,7 @@ public class AdministratorServlet extends HttpServlet {
 		//System.out.println(function);
 
 		switch (function) {
+		
 		case "/addAuthor": {
 			addAuthor(request, response);
 			break;
@@ -104,6 +109,8 @@ public class AdministratorServlet extends HttpServlet {
 			break;
 		}
 	}
+	
+	
 		private void deleteAuthor(HttpServletRequest request,
 				HttpServletResponse response) throws ServletException, IOException {
 			

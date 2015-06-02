@@ -11,8 +11,9 @@ import com.gcit.training.lms.entity.Author;
 public class AuthorDAO extends BaseDAO<List<Author>> {
 
 	public void create(Author author) throws Exception {
-		save("insert into tbl_author (authorName) values (?)",
+		   save ("insert into tbl_author (authorName) values (?)",
 				new Object[] { author.getAuthorName() });
+		  
 	}
 	public int createLate(Author author) throws Exception {		
 		int AuthorId = saveWithId("insert into tbl_author (authorName) values (?)",

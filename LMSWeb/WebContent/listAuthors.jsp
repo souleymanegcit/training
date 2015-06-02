@@ -19,8 +19,7 @@ List<Author> authors = new AuthorService().displayAuthor();
 		document.deleteFrm.submit();
 	} 
 </script> 
-<script src="./scripts/tableJS.js" type="text/javascript"></script> 
-<script src="./scripts/tableCSS.js" type="text/javascript"></script>
+ 
  
 <div style="margin-top:80px;margin-left:10px;">
 <section>

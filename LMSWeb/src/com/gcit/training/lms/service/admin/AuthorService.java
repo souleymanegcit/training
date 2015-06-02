@@ -9,6 +9,8 @@ import com.gcit.training.lms.entity.Author;
 
 public class AuthorService { 
 
+ 
+
 	public AuthorService() {
 		
 	}
@@ -43,10 +45,11 @@ public class AuthorService {
 //	
 	public  void insertAuthor(Author author) throws Exception {
 		Connection con = ConnectionUtil.getConnection();
+		 
 		try {
 			AuthorDAO p = new AuthorDAO();
 	    //calling the method create to insert into table 
-	      p.create(author);
+			  p.create(author);
 	      System.out.println("Inserted records into the table...Author");
 	      displayAuthor();
 	      con.commit();
@@ -58,7 +61,7 @@ public class AuthorService {
 	 	   }	  
 	       finally { 
 	    	   con.close();
-			} 
+	       }
 	 	}
 	
 //	public  int insertAuthorLate(Author author) throws ClassNotFoundException {
